@@ -1,0 +1,50 @@
+%YAML 1.1
+---
+actions:
+- utter_cheer_up
+- utter_did_that_help
+- utter_goodbye
+- utter_greet
+- utter_happy
+- utter_join_library
+- utter_library_branches
+intents:
+- greet
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- join_library
+- get_library_branches
+templates:
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_goodbye:
+  - text: Bye
+  - text: Please come by if you need any help.
+  - text: Thank you for your cooperation.
+  utter_greet:
+  - text: Hi there! How can I help you today?
+  - text: Hello, What can I do for you?
+  utter_happy:
+  - text: Great carry on!
+  utter_join_library:
+  - text: To join our library, you can visit one of our branch libraries or you can
+      register online via the link https://libreg.cityofparramatta.nsw.gov.au/ Fill
+      up the form and register. A temporary library card number is provided. You have
+      to visit one of our library branches with the number and an identification document.
+      A library card will be issued and you will be able to start borrowing items.
+      Parents or guardians of children or teens under 18 will need to provide their
+      own identification, along with documents (i.e. Medicare card) showing their
+      relationship. If you do not show ID within 6 weeks, the temporary card will
+      be deleted.
+  utter_library_branches:
+  - text: "We have library branch located at following locations:\nCity of Parramatta\
+      \ Library\tCarlingford Library\tConstitution Hill Branch Library Dundas Valley\
+      \ Branch Library\tEpping Branch Library\tErmington Branch Library Local Studies/Family\
+      \ History Library\tNewington Library\nWhich one of these branches will be nearest\
+      \ to you? I can provide you with location details."
