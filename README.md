@@ -8,5 +8,5 @@
 - rasa train (this generates the model to the models folder)
 
 ## to train interactively
-- rasa interactively -m models/<model_name> --endpoints <endpointFilename>
+- rasa interactively -m models/<model_name> --endpoints <endpointFilename><br>
   eg. rasa interactively -m models/20190816-130101.tar.gz --endpoints endpoints.yml
