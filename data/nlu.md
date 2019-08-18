@@ -5,6 +5,18 @@
 - that sounds good
 - correct
 
+## intent:ask_intro
+- who are you?
+- what is your name?
+- introduce yourself
+- can you tell me your name?
+- who are you?
+
+## intent:ask_purpose
+- what can you do for me?
+- what do you do?
+- how can you help me?
+
 ## intent:deny
 - no
 - never
@@ -19,6 +31,7 @@
 - see you around
 - see you later
 - thank you
+- bye
 
 ## intent:greet
 - hey
@@ -31,6 +44,7 @@
 - hello
 - hello
 - hello
+- hello Patricia
 
 ## intent:join_library
 - How can I get library membership?

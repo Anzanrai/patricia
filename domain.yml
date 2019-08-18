@@ -6,9 +6,11 @@ actions:
 - utter_goodbye
 - utter_greet
 - utter_happy
+- utter_intro
 - utter_join_library
 - utter_library_branches
 intents:
+- ask_intro
 - greet
 - goodbye
 - affirm
@@ -32,6 +34,9 @@ templates:
   - text: Hello, What can I do for you?
   utter_happy:
   - text: Great carry on!
+  utter_intro:
+  - text: I am Patricia. I am here to assist you.
+  - text: My name is Patricia. I am your assistant.
   utter_join_library:
   - text: To join our library, you can visit one of our branch libraries or you can
       register online via the link https://libreg.cityofparramatta.nsw.gov.au/ Fill
@@ -48,3 +53,7 @@ templates:
       \ Branch Library\tEpping Branch Library\tErmington Branch Library Local Studies/Family\
       \ History Library\tNewington Library\nWhich one of these branches will be nearest\
       \ to you? I can provide you with location details."
+  utter_patricia_purpose:
+  - text: I can help you with your questions regarding Parramatta City Cultural Heritage,
+      rules and regulations, policies. Ask me, I will try my best to help you or I
+      can connect you to a person who can.

@@ -1,4 +1,8 @@
-
+## introduction path
+* greet
+  - utter_greet
+* ask_intro
+  - utter_intro
 
 ## happy path
 * greet
@@ -45,7 +49,7 @@
   - utter_library_branches
 * goodbye
   - utter_goodbye
-  
+
 ## interactive_story_1
 * greet
     - utter_greet
@@ -53,3 +57,11 @@
     - utter_greet
 * greet
     - utter_greet
+
+## interactive_story_1
+* ask_intro
+    - utter_intro
+* greet
+    - utter_greet
+* goodbye
+    - utter_goodbye
