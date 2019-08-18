@@ -7,7 +7,7 @@ from django.db import models
 # Create your models here.
 
 
-class BotUserManager(models.Manager, base_user.BaseUserManager):
+class BotUserManager(base_user.BaseUserManager):
     def get_queryset(self):
         return super(BotUserManager, self).get_queryset().filter(is_deleted=False)
 
