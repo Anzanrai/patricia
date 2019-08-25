@@ -13,8 +13,8 @@
 
 ## to run http server
 - rasa run -m models --enable-api --log-file out.log --cors "*" where <br>
-  . -m parameter to give location of models
-  . --enable-api to enable additional api
-  . --log-file to output log
-  . --cors to allow cross origin resource sharing.
+  - -m parameter to give location of models <br>
+  - --enable-api to enable additional api<br>
+  - --log-file to output log<br>
+  - --cors to allow cross origin resource sharing.<br>
   
