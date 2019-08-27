@@ -1,8 +1,15 @@
-from django.urls import path
-from . import views
+from django.conf.urls import url
+from django.urls import path, include
+from rest_framework import routers
+
+from .views import RegisterViewSet, UserViewSet, activate
+
+router = routers.DefaultRouter()
+router.register(r'registers', RegisterViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    path("", views.HomeView.as_view(), name='home'),
-    path("login/form/", views.LoginView.as_view(), name='login_form'),
-    path("register/", views.RegisterView.as_view(), name='register_view')
+    path('', include(router.urls)),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        activate, name='activate'),
 ]

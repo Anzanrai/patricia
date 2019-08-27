@@ -1,13 +1,14 @@
 import uuid
 from random import randint
 
-from django.contrib.auth import base_user
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 
 # Create your models here.
 
 
-class BotUserManager(base_user.BaseUserManager):
+class BotUserManager(BaseUserManager):
     def get_queryset(self):
         return super(BotUserManager, self).get_queryset().filter(is_deleted=False)
 
@@ -19,15 +20,17 @@ class BotUserManager(base_user.BaseUserManager):
         return bot_user
 
 
-class BotUser(base_user.AbstractBaseUser):
+class BotUser(AbstractBaseUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(blank=False, null=False, max_length=30)
     middle_name = models.CharField(blank=True, null=True, max_length=30)
     last_name = models.CharField(blank=False, null=False, max_length=30)
     email = models.EmailField(blank=False, null=False, max_length=30, unique=True)
-    username = models.CharField(blank=False, null=False, max_length=15, unique=True)
+    username = models.CharField('username', blank=False, null=False, max_length=100, unique=True)
     is_deleted = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
     objects = BotUserManager()
+    USERNAME_FIELD = 'username'
 
     def clean(self):
         if not self.username:
