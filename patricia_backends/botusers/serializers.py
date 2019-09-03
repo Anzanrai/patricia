@@ -15,15 +15,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BotUser
-        fields = ['first_name', 'middle_name', 'last_name', 'username', 'email']
+        fields = ['first_name', 'middle_name', 'last_name', 'username', 'email', 'password']
 
-    # def send_registration_email(self):
 
     def create(self, validated_data):
         user = BotUser(**validated_data)
-        # user.is_active = False
-        # user.save()
-        # current_site = get_current_site(request)
         message = render_to_string('acc_active_email.html', {
             'user': user,
             'domain': 'localhost:8000',
@@ -34,6 +30,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         to_email = validated_data.get('email')
         email = EmailMessage(mail_subject, message, to=[to_email])
         email.send()
+        user.set_password(validated_data.get('password'))
         user.save()
         return HttpResponse('Please confirm your email address to complete the registration')
 
