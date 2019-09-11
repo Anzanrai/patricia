@@ -1,4 +1,6 @@
 from django.contrib.auth import authenticate
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.http import HttpResponse
 
 # Create your views here.
@@ -10,7 +12,7 @@ from django.views.generic import TemplateView, FormView
 from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK
 from rest_framework.views import APIView
@@ -43,16 +45,27 @@ class LoginView(APIView):
 @permission_classes((AllowAny,))
 def login(request):
     username = request.data.get('username')
+    email = request.data.get('email')
     password = request.data.get('password')
-    if username is None or password is None:
-        return Response({'error': 'Please provide necessary details'}, status=HTTP_400_BAD_REQUEST)
+    if not(username or email) or not password:
+        return Response({'error': 'Please provide credentials to login'}, status=HTTP_400_BAD_REQUEST)
+    else:
+        try:
+            user = BotUser.objects.get(Q(username=username)|Q(email=username))
+            if user.check_password(password):
+                token, _ = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key, 'user': BotUserSerializer(user).data}, status=HTTP_200_OK)
+            else:
+                return Response({'error': 'Incorrect login credentials provided.'}, status=HTTP_404_NOT_FOUND)
+        except ObjectDoesNotExist:
+            return Response({'error': 'User does not exist with provided credentials.'}, status=HTTP_404_NOT_FOUND)
 
-    user = authenticate(username=username, password=password)
-    if not user:
-        return Response({'error': 'Invalid Credentials'}, status=HTTP_404_NOT_FOUND)
 
-    token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key}, status=HTTP_200_OK)
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
+def logout(request):
+    return Response({'token': '', 'user': {}}, status=HTTP_200_OK)
 
 
 class HomeView(TemplateView):
