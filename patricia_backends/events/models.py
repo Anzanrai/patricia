@@ -38,3 +38,4 @@ class Heritage(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, blank=False, null=False)
     description = models.CharField(max_length=10000, blank=False, null=False)
+    photo = models.FileField(blank=True, null=True, storage='/media')
