@@ -3,7 +3,7 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
-from .models import Event, New
+from .models import Event, New, Heritage
 
 
 class PostEventSerializer(serializers.ModelSerializer):
@@ -43,4 +43,23 @@ class UpdateNewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = New
         fields = ['title', 'writer', 'updated_date', 'detail']
+        read_only_fields = ['published_date']
+
+
+class PostHeritageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Heritage
+        exclude = ['id']
+
+
+class HeritageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Heritage
+        fields = '__all__'
+
+
+class UpdateHeritageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Heritage
+        fields = ['name', 'description']
         read_only_fields = ['published_date']

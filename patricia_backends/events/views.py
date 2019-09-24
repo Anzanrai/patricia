@@ -8,8 +8,9 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import PostEventSerializer, EventSerializer, PostNewsSerializer, UpdateNewsSerializer, NewsSerializer
-from .models import Event, New
+from .serializers import PostEventSerializer, EventSerializer, PostNewsSerializer, UpdateNewsSerializer, NewsSerializer, \
+    PostHeritageSerializer, UpdateHeritageSerializer, HeritageSerializer
+from .models import Event, New, Heritage
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -56,3 +57,45 @@ class NewsViewSet(viewsets.ModelViewSet):
     queryset = New.objects.filter(published_date__gte=datetime.today().date())
     permission_classes = (IsAuthenticated, )
     pagination_class = StandardResultsSetPagination
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return PostNewsSerializer
+        if self.request.method == 'PUT':
+            return UpdateNewsSerializer
+        return NewsSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = {}
+        for key, value in request.data.items():
+            data[key] = value
+        data['writer'] = request.user.username
+        data['published_date'] = datetime.today().date()
+        serializer = self.get_serializer(data=data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(data={'body': ['News has been successfully added.']}, status=status.HTTP_201_CREATED,
+                            headers=headers)
+        else:
+            errors = serializer.errors
+            if 'title' in errors:
+                errors.update({'title': ['Please provide news title.']})
+            if 'detail' in errors:
+                if not request.data['detail']:
+                    errors.update({'detail': ['News detail is not provided.']})
+            return Response(data=errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class HeritageViewSet(viewsets.ModelViewSet):
+    queryset = Heritage.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return PostHeritageSerializer
+        if self.request.meothod == 'PUT':
+            return UpdateHeritageSerializer
+        return HeritageSerializer
