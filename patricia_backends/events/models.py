@@ -5,6 +5,7 @@ from django.db import models
 
 
 # Create your models here.
+from multiselectfield import MultiSelectField
 
 
 class Event(models.Model):
@@ -35,7 +36,20 @@ class New(models.Model):
 
 
 class Heritage(models.Model):
+    DAYS_CHOICES = (
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday')
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, blank=False, null=False)
     description = models.CharField(max_length=10000, blank=False, null=False)
+    open_time = models.TimeField(blank=True, null=True)
+    close_time = models.TimeField(blank=True, null=True)
+    location = models.CharField(max_length=500, blank=True, null=True)
+    open_days = MultiSelectField(choices=DAYS_CHOICES, blank=True, null=True)
     photo = models.FileField(blank=True, null=True, storage='/media')

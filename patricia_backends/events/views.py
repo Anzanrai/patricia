@@ -1,11 +1,12 @@
 from datetime import datetime
 
+from django.contrib.postgres.search import TrigramSimilarity
 from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import viewsets, status
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from .serializers import PostEventSerializer, EventSerializer, PostNewsSerializer, UpdateNewsSerializer, NewsSerializer, \
@@ -91,11 +92,34 @@ class NewsViewSet(viewsets.ModelViewSet):
 
 
 class HeritageViewSet(viewsets.ModelViewSet):
-    queryset = Heritage.objects.all()
+    # queryset = Heritage.objects.all()
+    permission_classes = (AllowAny, )
+
+    def get_queryset(self):
+        heritage_name = self.request.query_params.get('name', '')
+        if heritage_name:
+            return Heritage.objects.filter(name__icontains=heritage_name)
+        else:
+            return Heritage.objects.all()
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return PostHeritageSerializer
-        if self.request.meothod == 'PUT':
+        if self.request.method == 'PUT':
             return UpdateHeritageSerializer
+        return HeritageSerializer
+
+
+class HeritageSuggestionViewSet(viewsets.ModelViewSet):
+    permission_classes = (AllowAny, )
+
+    def get_queryset(self):
+        heritage_name = self.request.query_params.get('heritage_name', '')
+        if heritage_name:
+            return Heritage.objects.annotate(similarity=TrigramSimilarity('name', heritage_name), )\
+                .order_by('-similarity')
+        else:
+            return Heritage.objects.all()
+
+    def get_serializer_class(self):
         return HeritageSerializer

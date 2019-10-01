@@ -1,5 +1,12 @@
 %YAML 1.1
 ---
+slots:
+  heritage_name:
+    type: text
+
+entities:
+  - heritage_name
+
 actions:
 - utter_cheer_up
 - utter_did_that_help
@@ -9,6 +16,18 @@ actions:
 - utter_intro
 - utter_join_library
 - utter_library_branches
+- utter_heritage_info
+- utter_chat_options
+- utter_greet_with_chat_options
+- get_heritage_title
+- get_heritage_detail
+- utter_upcoming_events_title
+- utter_event_detail
+- utter_new_news_title
+- utter_news_detail
+- utter_goodbye_with_future_offer
+- utter_question_for_user_next_interest
+
 intents:
 - ask_intro
 - greet
@@ -19,6 +38,15 @@ intents:
 - mood_unhappy
 - join_library
 - get_library_branches
+- ask_heritage_info
+- chat_intent
+- heritage_title
+- heritage_detail
+- news
+- events
+- news_title_selection
+- event_title_selection
+
 templates:
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
@@ -57,3 +85,38 @@ templates:
   - text: I can help you with your questions regarding Parramatta City Cultural Heritage,
       rules and regulations, policies. Ask me, I will try my best to help you or I
       can connect you to a person who can.
+  utter_heritage_info:
+  - text: Parramatta has more heritage than most people realise! Australia’s three oldest European buildings are
+      located in Parramatta. Also located here is the longest continuously used church site (St Johns), military site
+      (Lancer Barracks) the pub with the oldest licence (Woolpack), the site of first successful crops
+      (Government Farm), the oldest in-situ marked grave and oldest surviving cemetery (Henry Dodd’s grave and
+      St Johns Cemetery), the first mathematically-designed dam in Australia (Lake Parramatta), the oldest 3-storey
+      brick building in Australia (Female Orphan School), the oldest Independent school (Kings), the first bridge
+      (to Government Farm), the first observatory. It's also the site of the first Aboriginal feasts, the Native
+      Institution... and more!
+  utter_chat_options:
+  - text: Lets have a chat! What would you like to talk about? Culture, or Heritage, or, News, or Events?
+  - text: I know about news and events in relation to Parramatta City. Also, I can talk with you about heritages and culture of Parramatta City. What would you like to talk about?
+  - text: What would you like to chat about? News, Events, Culture or Heritages of Parramatta City?
+  utter_greet_with_chat_options:
+  - text: Hi, This is Patricia. I know a lot about history, and heritages of Parramatta City, new news and events
+      regarding city. Would you like to know?
+  - text: Hello there, would you like to spend some time to learn culture, heritages and history of Parramatta City?
+  utter_upcoming_events_title:
+  - text: Following are the events that are going to take place.
+  utter_event_detail:
+  - text: Still remaining.
+  utter_new_news_title:
+  - text: Still remaining to implement.
+  utter_news_detail:
+  - text: Still remaining to implement.
+  utter_goodbye_with_future_offer:
+  - text: See ya! Let me know if you change your mind.
+  - text: Lets chat some other time then.
+  - text: Bye! We will have good time next time.
+  utter_question_for_user_next_interest:
+  - text: I hope you are enjoying. Would you like to learn more?
+  - text: Would you like to chat on another topic?
+
+
+
